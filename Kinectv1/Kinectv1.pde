@@ -6,6 +6,7 @@ void setup() {
   kinect = new Kinect(this);
   kinect.initDepth();
   kinect.enableColorDepth(true);
+  kinect.enableMirror(true);
 }
 
 void draw() {
