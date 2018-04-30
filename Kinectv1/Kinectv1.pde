@@ -7,10 +7,10 @@ void setup() {
   kinect.initDepth();
   kinect.enableColorDepth(true);
   kinect.enableMirror(true);
+  background(0);
 }
 
 void draw() {
-  background(0);
   
   PImage img = kinect.getDepthImage();
   image(img, 0, 0);
