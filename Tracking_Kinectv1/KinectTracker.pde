@@ -27,6 +27,7 @@ class KinectTracker {
     // But doing it this way for simplicity
     kinect.initDepth();
     kinect.enableMirror(true);
+    kinect.enableColorDepth(true);
     // Make a blank image
     display = createImage(kinect.width, kinect.height, RGB);
     // Set up the vectors
