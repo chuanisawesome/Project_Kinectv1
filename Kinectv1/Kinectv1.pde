@@ -1,4 +1,5 @@
 import org.openkinect.processing.*;
+
 Kinect kinect;
 
 void setup() {
@@ -8,6 +9,7 @@ void setup() {
   kinect.enableColorDepth(true);
   kinect.enableMirror(true);
   background(0);
+  frameRate(30);
 }
 
 void draw() {
@@ -24,7 +26,6 @@ void draw() {
       fill(255-b);
       pushMatrix();
       translate(x, y, z);
-      rect(0, 0, skip/2, skip/2);
       popMatrix();
     }
   }
