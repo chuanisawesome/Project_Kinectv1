@@ -4,9 +4,10 @@ import org.openkinect.processing.*;
 // Kinect Library object
 Kinect kinect;
 
-int threshold = 800;
+int threshold = 1000;
 PImage display;
 PImage rgbImage;
+PImage colordepth;
 
 void setup() {
    size(displayWidth, displayHeight);
@@ -14,6 +15,7 @@ void setup() {
   smooth();
   kinect = new Kinect(this);
   kinect.initDepth();
+  kinect.initVideo();
   kinect.enableMirror(true);
   kinect.enableColorDepth(true);
   // creates a blank image same as kinect.width
@@ -27,6 +29,9 @@ void draw() {
 
   // Get the raw depth as array of integers
   int[] depth = kinect.getRawDepth();
+  PImage img = kinect.getDepthImage();
+  image(kinect.getVideoImage(), 640, 0);
+  image(kinect.getDepthImage(), 640, 0);
   // keep track of the sum of all the X pixels
   float sumX = 0;
   // keep track of the sum of all the Y pixels
@@ -41,7 +46,7 @@ void draw() {
       
       // if distance is between x and y let me see color else black (threshold) got rid of wall       
       if (d < threshold) {
-        display.pixels[offset] = color(255, 0, 0);
+        display.pixels[offset] = color(500, 640, 0);
                                  color(109, 57, 255);
                                  color(0,255,0);
                                  color(0,0,255);
@@ -57,5 +62,5 @@ void draw() {
     }
   }
   display.updatePixels();
-  image(display, 0, 0);
+  image(kinect.getDepthImage(), 0, 0);
 }

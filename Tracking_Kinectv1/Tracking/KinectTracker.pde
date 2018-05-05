@@ -97,7 +97,7 @@ class KinectTracker {
         int pix = x + y * display.width;
         if (rawDepth < threshold) {
           // A red color instead
-          display.pixels[pix] = color(150, 50, 50);
+         // display.pixels[pix] = color(150, 50, 50);
         } else {
           display.pixels[pix] = img.pixels[offset];
         }
