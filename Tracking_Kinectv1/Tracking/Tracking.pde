@@ -8,30 +8,42 @@ int threshold = 1000;
 PImage display;
 PImage rgbImage;
 PImage colordepth;
+int x = 0;
+int screenWidth = displayWidth; 
+int screenHeight = displayHeight;
 
 void setup() {
-   size(displayWidth, displayHeight);
+   //size(displayWidth, displayHeight);
   //size(1280, 520);
-  smooth();
+  frameRate(5);
+  fullScreen();
+  surface.setResizable(true);
+  smooth(8);
   kinect = new Kinect(this);
   kinect.initDepth();
   kinect.initVideo();
   kinect.enableMirror(true);
   kinect.enableColorDepth(true);
+  background(0);
+  noStroke();
+  fill(102);
   // creates a blank image same as kinect.width
   display = createImage(kinect.width, kinect.height, RGB);
 }
 
 void draw() {
-  background(0);
-  // set pixels in that image based on the raw depth  
+
+  // set pixels in that image based on the raw depth
   display.loadPixels();
 
   // Get the raw depth as array of integers
   int[] depth = kinect.getRawDepth();
-  PImage img = kinect.getDepthImage();
-  image(kinect.getVideoImage(), 640, 0);
-  image(kinect.getDepthImage(), 640, 0);
+  PImage depthImage = kinect.getDepthImage();
+  //image(kinect.getVideoImage(), 640, 0);
+  image(kinect.getDepthImage(), 0, 0, displayWidth, displayHeight);
+  depthImage.resize(displayWidth, displayHeight);
+  image(kinect.getDepthImage(), 0, 0, displayWidth, displayHeight);
+
   // keep track of the sum of all the X pixels
   float sumX = 0;
   // keep track of the sum of all the Y pixels
@@ -42,15 +54,12 @@ void draw() {
     for (int y = 0; y < kinect.height; y++) {
       int offset = x + y * kinect.width;
       int d = depth[offset];
-      
-      
-      // if distance is between x and y let me see color else black (threshold) got rid of wall       
+
+
+      // if distance is between x and y let me see color else black (threshold) got rid of wall
       if (d < threshold) {
-        display.pixels[offset] = color(500, 640, 0);
-                                 color(109, 57, 255);
-                                 color(0,255,0);
-                                 color(0,0,255);
-        
+        display.pixels[offset] = color(0,0,0);
+
          // adding up all the X and Y pixels
         sumX += x;
         sumY +=y;
@@ -62,5 +71,5 @@ void draw() {
     }
   }
   display.updatePixels();
-  image(kinect.getDepthImage(), 0, 0);
+ image(kinect.getDepthImage(), 0, 0);
 }
