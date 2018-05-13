@@ -15,11 +15,11 @@ int screenHeight = displayHeight;
 
 void setup()
 {
-    //size(640, 480);
+    size(640, 480);
     frameRate(5);
-    fullScreen();
+    //fullScreen();
     background(0);
-    frame.setResizable(true);
+    surface.setResizable(true);
     noStroke();
     fill(102);
     kinect = new SimpleOpenNI(this);
