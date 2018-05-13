@@ -8,11 +8,10 @@ SimpleOpenNI kinect;
 int closestValue;
 int closestX;
 int closestY;
-float deg;
 PImage cam;
 int screenWidth = displayWidth;
 int screenHeight = displayHeight;
-int irW,irH;
+
 
 void setup()
 {
@@ -20,7 +19,7 @@ void setup()
     frameRate(5);
     fullScreen();
     background(0);
-    surface.setResizable(true);
+    frame.setResizable(true);
     noStroke();
     fill(102);
     kinect = new SimpleOpenNI(this);
@@ -38,13 +37,13 @@ void draw()
     PImage depthImage = kinect.userImage();
     //PImage rgbImage = kinect.rgbImage();
 
-    image(depthImage, 0, 0);
-    //cam = kinect.sceneImage().get();
+    //image(depthImage, 0, 0);
+    cam = kinect.userImage().get();
     //image(cam, 0, 0);
-    depthImage.resize(displayWidth, displayHeight);
-    image(depthImage, 0, 0);
+    //depthImage.resize(displayWidth, displayHeight);
+    //image(depthImage, 0, 0);
     //image(depthImage, 0, 0, displayWidth, displayHeight);
-    image(kinect.userImage(), 0, 0);
+    image(cam, 0, 0, width, height);
     //image(rgbImage, 0, 0);
     //int[] depthValues = kinect.depthMap();
     int[] depthValues = kinect.userMap();
