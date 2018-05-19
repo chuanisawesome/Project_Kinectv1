@@ -9,14 +9,6 @@ int closestValue;
 int closestX;
 int closestY;
 PImage cam;
-PImage backgroundImage; // background image
-PImage heatmapBrush; // radial gradient used as a brush. Only the blue channel is used.
-PImage heatmapColors; // single line bmp containing the color gradient for the finished heatmap, from cold to hot
-PImage clickmapBrush; // bmp of the little marks used in the clickmap
-PImage gradientMap; // canvas for the intermediate map
-PImage heatmap; // canvas for the heatmap
-ArrayList points = new ArrayList() ;
-float maxValue = 0; // variable storing the current maximum value in the gradientMap
 
 void setup()
 {
