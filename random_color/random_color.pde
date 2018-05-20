@@ -31,6 +31,8 @@ void draw() {
   context.update(); // update kinect in each frame
   kinectDepth = context.depthImage(); // get Kinect data
   image(kinectDepth,0,0); // draw depth image at coordinates (0,0)
+  IntVector userList = new IntVector();
+  kinect.getUsers(userList); // gets list of users
   userID = context.getUsers(); // get all user IDs of tracked users
   int[] depthValues = context.depthMap(); // save all depth values in a array
   int[] userMap = null; // initalize array to null
@@ -46,8 +48,13 @@ void draw() {
         fill(#FF0335);
         userCurID = userMap[index];
         blob_array[index] = 255;
+        PVector position = new PVector(); 
+        kinect.getCoM(userId, position); // gets users center of mass
+        kinect.convertRealWorldToProjective(position, position);
+        textSize(20);
+        text("you're hot", position.x, position.y, 25, 25);
         //usericon=userColors[colorIndex];
-        text(userColor[int(random(0,10))],x,y); // put your sample random color
+        fill(userColor[int(random(0,10))],x,y); // put your sample random color
       }
       else {
         blob_array[index]=0;
