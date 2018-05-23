@@ -18,26 +18,27 @@ float[][] interp_array;
 void setup()
 {
   size(1450, 1350); //window size
-  context = new SimpleOpenNI(this); // start and enable kinect object  
+  context = new SimpleOpenNI(this); // start and enable kinect object
   context.setMirror(true); // set mirroring object
   context.enableDepth(); // enable depth  camera
   context.enableUser(); // enable skeleton generation for all joints
-  context.isInit(); // enable scene 
+  context.isInit(); // enable scene
   smooth(); // smooth out the drawing
   blob_array=new int[cont_length]; // initialize blob_array size
   interp_array = new float[width][height];
   makeArray();
 }
- 
+
 void draw() {
-  background(51); //set background to black color
+  background(0); //set background to black color
   noStroke();
   context.update(); // update kinect in each frame
   kinectDepth = context.depthImage(); // get Kinect data
-  image(kinectDepth,0,0); // draw depth image at coordinates (0,0)
+  image(kinectDepth, 0, 0, width, height); // draw depth image at coordinates (0,0)
   IntVector userList = new IntVector();
   context.getUsers(userList); // gets list of users
-  int userId = userList.get(10);
+  for (int i=0; i<userList.size(); i++) {
+    int userId = userList.get(i);
   userID = context.getUsers(); // get all user IDs of tracked users
   int[] depthValues = context.depthMap(); // save all depth values in a array
   int[] userMap = null; // initalize array to null
@@ -53,11 +54,11 @@ void draw() {
         fill(#FF0335);
         userCurID = userMap[index];
         blob_array[index] = 255;
-        PVector position = new PVector(); 
+        PVector position = new PVector();
         context.getCoM(userId, position); // gets users center of mass
         context.convertRealWorldToProjective(position, position);
-        textSize(20);
-        text("you're hot", position.x, position.y, 25, 25);
+        textSize(25);
+        text("hot", position.x, position.y, 25, 25);
         //usericon=userColors[colorIndex];
         fill(userColor[int(random(0,10))],x,y); // put your sample random color
       }
@@ -66,12 +67,7 @@ void draw() {
       }
     }
   }
-}
-void onNewUser(int userId) {
-  println("you're hot" + userId);
-}
-void onLostUser(int userId) {
-  println("you're out " + userId);
+ }
 }
 
 void makeArray() {
@@ -81,26 +77,4 @@ void makeArray() {
       interp_array[c][r] = 24.8 + 6.0 * noise(r * 0.02, c * 0.02);
     }
   }
-}
-
-void applyColor() {  // Generate the heat map
-  pushStyle(); // Save current drawing style
-  colorMode(HSB, 1, 1, 1); // Set drawing mode to HSB instead of RGB
-  loadPixels();
-  int p = 0;
-  for (int r = 0; r < height; r++) {
-    for (int c = 0; c < width; c++) {
-      // Get the heat map value 
-      float value = interp_array[c][r];
-      // Constrain value to acceptable range.
-      value = constrain(value, 25, 30);
-      // Map the value to the hue
-      // 0.2 blue
-      // 1.0 red
-      value = map(value, 25, 30, 0.2, 1.0);
-      pixels[p++] = color(value, 0.9, 1);
-    }
-  }
-  updatePixels();
-  popStyle(); // Restore original drawing style
 }

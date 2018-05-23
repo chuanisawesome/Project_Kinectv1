@@ -14,7 +14,6 @@ void setup()
 {
     size(1450, 1350);
     frameRate(25);
-    //fullScreen();
     background(0);
     surface.setResizable(true);
     noStroke();
@@ -22,7 +21,6 @@ void setup()
     kinect = new SimpleOpenNI(this);
     kinect.setMirror(true);
     kinect.enableDepth();
-    //kinect.enableRGB();
     kinect.enableUser();
     colorMode(HSB);
 }
@@ -33,20 +31,13 @@ void draw()
     kinect.update();
 
     PImage depthImage = kinect.userImage();
-    //PImage rgbImage = kinect.rgbImage();
-    //image(depthImage, 0, 0);
     cam = kinect.userImage().get();
-    //image(cam, 0, 0);
-    //depthImage.resize(displayWidth, displayHeight);
-    //image(depthImage, 0, 0);
-    //image(depthImage, 0, 0, displayWidth, displayHeight);
     image(cam, 0, 0, width, height);
-    //image(rgbImage, 0, 0);
-    //int[] depthValues = kinect.depthMap();
     int[] depthValues = kinect.userMap();
 
     IntVector userList = new IntVector();
     kinect.getUsers(userList);
+
     for (int i=0; i<userList.size(); i++) {
       int userId = userList.get(i);
 
@@ -54,8 +45,9 @@ void draw()
     kinect.getCoM(userId, position);
 
     kinect.convertRealWorldToProjective(position, position);
+    fill(255,255,255);
     textSize(40);
-    text("you're hot", 25, 25);
+    text("you're hot", position.x, position.y, 25, 25);
 
     loadPixels();
     for (int y=0; y < 480; y++) {
