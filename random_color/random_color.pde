@@ -27,6 +27,7 @@ void setup()
   blob_array=new int[cont_length]; // initialize blob_array size
   interp_array = new float[width][height];
   makeArray();
+  applyColor();
 }
 
 void draw() {
@@ -60,7 +61,7 @@ void draw() {
         textSize(25);
         text("hot", position.x, position.y, 25, 25);
         //usericon=userColors[colorIndex];
-        fill(userColor[int(random(0,10))],x,y); // put your sample random color
+        fill(userColor[int(random(0,8))],x,y); // put your sample random color
       }
       else {
         blob_array[index]=0;
@@ -77,4 +78,24 @@ void makeArray() {
       interp_array[c][r] = 24.8 + 6.0 * noise(r * 0.02, c * 0.02);
     }
   }
+}
+
+void applyColor() {  // Generate the heat map
+  colorMode(HSB, 1, 1, 1); // Set drawing mode to HSB instead of RGB
+  loadPixels();
+  int p = 0;
+  for (int r = 0; r < height; r++) {
+    for (int c = 0; c < width; c++) {
+      // Get the heat map value
+      float value = interp_array[c][r];
+      // Constrain value to acceptable range.
+      value = constrain(value, 25, 30);
+      // Map the value to the hue
+      // 0.2 blue
+      // 1.0 red
+      value = map(value, 25, 30, 0.2, 1.0);
+      pixels[p++] = color(value, 0.9, 1);
+    }
+  }
+  updatePixels();
 }
