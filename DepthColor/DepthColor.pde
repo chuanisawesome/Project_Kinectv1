@@ -29,6 +29,3 @@ void draw() {
     }
   }
 }
-
-// TODO:
-// Make background color black
