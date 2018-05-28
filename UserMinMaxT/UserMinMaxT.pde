@@ -1,4 +1,5 @@
 import org.openkinect.processing.*;
+import org.openkinect.freenect.*;
 
 Kinect kinect;
 
@@ -17,15 +18,6 @@ void setup() {
   kinect.enableMirror(true);
   colorMode(HSB, 100);
   img = createImage(kinect.width, kinect.height, RGB);
-
-  c1 = color(random(100), 100, 100);
-  c2 = color(random(100), 100, 30);
-
-  for(int y = 0; y < img.height; y++) {
-    float n = map(y, 0, img.height, 0, 1);
-    color newc = lerpColor(c1, c2, n);
-    stroke(newc);
-    line(0, y, img.width, y);
   }
 }
 
@@ -45,7 +37,15 @@ void draw() {
       int d = depth[offset];
 
       if (d > minT && d < maxT && x > 100) {
-        img.pixels[offset] = lerpColor(c1, c2, 140);
+        c1 = color(random(100), 100, 100);
+        c2 = color(random(100), 100, 30);
+
+        for(int y = 0; y < img.height; y++) {
+          float n = map(y, 0, img.height, 0, 1);
+          color newc = lerpColor(c1, c2, n);
+          stroke(newc);
+          line(0, y, img.width, y);
+        //img.pixels[offset] = lerpColor(50, 123, 140);
 
         sumX += x;
         sumY += y;
