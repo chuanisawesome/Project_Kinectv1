@@ -23,12 +23,14 @@ float textColor = 0;
 void setup(){
   size(1920, 1280);
   frameRate(20);
+  surface.setResizable(true);
+  noStroke();
   kinect = new SimpleOpenNI(this);
   kinect.enableDepth();
   kinect.setMirror(true);
   kinect.enableUser();
   colorMode(HSB, 100);
-  img = createImage(640, 480, RGB);
+  // img = createImage(640, 480, RGB);
   smooth();
   blob_array=new int[cont_length];
   c1 = color(random(36), 255, 255);
@@ -55,9 +57,9 @@ void draw(){
 
 
 
-    for(int y = 0; y < img.height; y++){
-      for(int x = 0; x < img.width; x++){
-        float n = map(y, 0, img.height, 0, 1);
+    for(int y = 0; y < 480; y++){
+      for(int x = 0; x < 640; x++){
+        float n = map(y, 0, 480, 0, 1);
         // randomized gradient color
         if (second() % 10 == 0) {
           c1 = color(random(36), 255, 255);
@@ -66,7 +68,7 @@ void draw(){
         color newc = lerpColor(c1, c2, n);
         stroke(newc);
         //line(0, y, img.width, y);
-        int offset = x + y * img.width;
+        int offset = x + y * 640;
         int d = depth[offset];
 
       // min and max threshold that is set
@@ -92,7 +94,7 @@ void draw(){
     }
    }
    // updates the img pixels
-    img.updatePixels();
+    updatePixels();
     image(img, 0, 0);
     // get center of mass of a user
     //float avgX = sumX / totalPixels;
