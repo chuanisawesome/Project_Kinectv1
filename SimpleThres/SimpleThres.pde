@@ -120,3 +120,5 @@ void draw(){
     fill(textColor, 255,255);
   }
 }
+
+//rm img
