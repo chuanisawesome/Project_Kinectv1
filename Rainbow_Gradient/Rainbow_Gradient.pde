@@ -98,6 +98,6 @@ void draw(){
     } else {
       textColor++;
     }
-    text("you're hot", avgX, avgY);
+    text("hello there", avgX, avgY);
     fill(textColor, 255,255);
   }

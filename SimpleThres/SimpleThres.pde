@@ -6,6 +6,7 @@ int closestValue;
 float minT = 500;
 float maxT = 2000;
 PImage img;
+PImage cam;
 
 // declare global variables for the
 // previous x and y coordinates
@@ -14,14 +15,16 @@ int previousY;
 
 int blob_array[];
 int userCurID;
-int cont_length = 640*480;
+int cont_length = 1450*1250;
 
 color c1;
 color c2;
 float textColor = 0;
+PFont metaBold;
 
 void setup(){
-  size(1920, 1280);
+  size(1450, 1250);
+  //size(1920, 1280);
   frameRate(20);
   surface.setResizable(true);
   noStroke();
@@ -30,19 +33,26 @@ void setup(){
   kinect.setMirror(true);
   kinect.enableUser();
   colorMode(HSB, 100);
-  // img = createImage(640, 480, RGB);
+  img = createImage(1450, 1250, RGB);
+  img.resize(640,640);
   smooth();
   blob_array=new int[cont_length];
   c1 = color(random(36), 255, 255);
   c2 = color(random(36), 255, 255);
+  metaBold = createFont("GOTHAM-BOLD.TTF", 20);
+  //image(img, 0, 0, width, height);
 }
 
 void draw(){
   background(0);
 
-  kinect.update();
-  loadPixels();
 
+  kinect.update();
+  img.loadPixels();
+  //image(img, 0, 0);
+  
+  cam = kinect.userImage().get();
+  image(cam, 0, 0, width, height);
   int[] depth = kinect.depthMap();
 
   float sumX = 0;
@@ -78,9 +88,9 @@ void draw(){
       // if there is no user detected
         if (userMap != null && userMap[offset] > 0) {
           userCurID = userMap[offset];
-          blob_array[offset] = 255;
+          blob_array[offset] = 0;
 
-          fill(200,0,200);
+          //fill(200,0,200);
         }
 
           closestValue = d;
@@ -94,8 +104,8 @@ void draw(){
     }
    }
    // updates the img pixels
-    updatePixels();
-    image(img, 0, 0);
+    img.updatePixels();
+    image(img, 0, 0,width, height);
     // get center of mass of a user
     //float avgX = sumX / totalPixels;
     //float avgY = sumY / totalPixels;
@@ -115,10 +125,8 @@ void draw(){
       textColor++;
     }
     kinect.convertRealWorldToProjective(position, position);
-    textSize(20);
+    textFont(metaBold);
     text("you're hot", position.x, position.y);
     fill(textColor, 255,255);
   }
 }
-
-//rm img
