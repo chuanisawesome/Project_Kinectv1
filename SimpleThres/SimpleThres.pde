@@ -25,7 +25,7 @@ PFont metaBold;
 void setup(){
   size(1450, 1250);
   //size(1920, 1280);
-  frameRate(20);
+  frameRate(30);
   surface.setResizable(true);
   noStroke();
   kinect = new SimpleOpenNI(this);
@@ -39,7 +39,7 @@ void setup(){
   blob_array=new int[cont_length];
   c1 = color(random(36), 255, 255);
   c2 = color(random(36), 255, 255);
-  metaBold = createFont("GOTHAM-BOLD.TTF", 20);
+  metaBold = createFont("GOTHAM-BOLD.TTF", 50);
   //image(img, 0, 0, width, height);
 }
 
